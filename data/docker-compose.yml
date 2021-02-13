@@ -1,0 +1,13 @@
+version: "3.4"
+
+services:
+  dbstur2:
+    image: postgres
+    environment: 
+      POSTGRES_PASSWORD: "Postgres2021!"
+    ports: 
+      - 15432:5432
+    volumes: 
+      - C:\postgres\dbstur:/var/lib/postgresql/data
+
+    

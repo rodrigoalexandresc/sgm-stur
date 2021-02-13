@@ -10,16 +10,18 @@ services:
       dockerfile: Dockerfile
     ports: 
       - "5100:80"
+    environment: 
+      DB_CONNECTION_STRING: "host=postgres_image;port=5432;database=sturdb;username=sturuser;password=stur2021"
 
   postgres-image:
     image: postgres:latest
     ports: 
-      - "5432"
+      - "5432:5432"
     restart: always
     volumes: 
       - db_volume:/var/lib/postgresql/data
     environment: 
-      POSTGRES_USER: "stur_user"
+      POSTGRES_USER: "sturuser"
       POSTGRES_PASSWORD: "stur2021"
       POSTGRES_DB: "sturdb"
 
