@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using STUR_mvc.Models;
+using STUR_mvc.Services;
 
 namespace STUR_mvc
 {
@@ -30,7 +31,9 @@ namespace STUR_mvc
             //var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
             var connectionString = "Server=localhost;Port=15432;Database=stur;User Id=postgres;Password=Postgres2021!";
             services.AddDbContext<STURDBContext>(options =>
-                options.UseNpgsql(connectionString));    
+                options.UseNpgsql(connectionString));
+
+            services.AddScoped<IPTUCalculoService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

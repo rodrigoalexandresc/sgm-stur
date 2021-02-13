@@ -7,6 +7,8 @@
 
 begin;
 
+DROP TABLE IF EXISTS imposto  ;
+
 CREATE TABLE imposto (
 id SERIAL,
 valor numeric(15,2) NOT NULL DEFAULT 0,
@@ -35,11 +37,38 @@ VALUES
 (60*3.5, '30004444', '2021-2-6', '30004444-20210206', '', 60, 140),
 (60*3.5, '30074444', '2021-2-6', '30074444-20210206', '', 60, 140);
 
+DROP TABLE  IF EXISTS infogeo;
+
+CREATE TABLE infogeo (
+id SERIAL,
+inscricaoimovel varchar(20) NOT NULL,
+dataatualizacao timestamp NOT NULL,
+areaconstruida numeric(15,2) NOT NULL DEFAULT 0,
+areaterreno numeric(15,2) NOT NULL DEFAULT 0,
+CONSTRAINT infogeo_pkey PRIMARY KEY (id)
+);
+
+INSERT INTO infogeo (inscricaoimovel, dataatualizacao, areaconstruida, areaterreno)
+VALUES 
+('30014444', '2020-1-1', 60, 140),
+('30054444', '2020-1-1', 100, 140),
+('30014334', '2020-1-1', 160, 340),
+('20013144', '2020-1-1', 60, 140),
+('40016665', '2020-1-1', 60, 140),
+('40013264', '2020-1-1', 60, 140),
+('10014477', '2020-1-1', 30, 100),
+('20014454', '2020-1-1', 60, 140),
+('10066666', '2020-1-1', 60, 140),
+('30014888', '2020-1-1', 60, 140),
+('30020009', '2020-1-1', 60, 140),
+('30004444', '2020-1-1', 60, 140),
+('30074444', '2020-1-1', 60, 140);
 
 commit;
 
 
-SELECT * FROM imposto
+SELECT * FROM imposto;
+SELECT * FROM infogeo;
 
 
 

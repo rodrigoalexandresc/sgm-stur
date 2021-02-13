@@ -7,6 +7,6 @@ namespace STUR_mvc.Models
         [Display(Name = "Ano Base")]
         public int AnoBase { get; set; }
         [Display(Name = "Inscrição Imóvel")]
-        public int? InscricaoImovel { get; set; }
+        public string InscricaoImovel { get; set; }
     }
 }

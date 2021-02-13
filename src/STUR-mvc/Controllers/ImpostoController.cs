@@ -5,16 +5,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using STUR_mvc.Models;
+using STUR_mvc.Services;
 
 namespace STUR_mvc.Controllers
 {
     public class ImpostoController : Controller
     {
         private readonly STURDBContext context;
+        private readonly IPTUCalculoService iPTUCalculoService;
 
-        public ImpostoController(STURDBContext context)
+        public ImpostoController(STURDBContext context, IPTUCalculoService iPTUCalculoService)
         {
             this.context = context;
+            this.iPTUCalculoService = iPTUCalculoService;
         }
 
         // GET: ImpostoController
@@ -39,8 +42,9 @@ namespace STUR_mvc.Controllers
         public ActionResult Calculo(IPTUCalculoViewModel viewModel)
         {
             //processamento iptu
-            var retorno = new IPTURetornoCalculoViewModel();
-            return View("RetornoCalculo", viewModel);
+            var impostosCalculados = iPTUCalculoService.CalcularIPTU(viewModel.AnoBase, viewModel.InscricaoImovel);
+            var retorno = new IPTURetornoCalculoViewModel { Impostos = impostosCalculados };
+            return View("RetornoCalculo", retorno);
         }
 
         // GET: ImpostoController/Details/5
