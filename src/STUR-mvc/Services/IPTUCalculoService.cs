@@ -1,4 +1,5 @@
-﻿using STUR_mvc.Models;
+﻿using Confluent.Kafka;
+using STUR_mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -40,9 +41,33 @@ namespace STUR_mvc.Services
                     dbContext.Impostos.Update(imposto);
 
                 dbContext.SaveChanges();
+
+                NotificarImpostoCalculado(imposto);
             }
 
             return impostosCalculados;
+        }
+
+        private void NotificarImpostoCalculado(Imposto imposto)
+        {
+            var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
+            var producerBuilder = new ProducerBuilder<Null, Imposto>(config);
+            producerBuilder.SetValueSerializer(new ImpostoSerializer());
+
+            using (var producer = producerBuilder.Build())
+            {
+                try
+                {
+                    producer.Produce("stur_imposto_calculado", new Message<Null, Imposto>
+                    {
+                        Value = imposto
+                    });
+                }
+                catch (ProduceException<Null, Imposto> e)
+                {
+                    throw e;
+                }
+            }
         }
 
         private IList<InfoGeo> SelecionarPropriedadas(int anoBase, string inscricaoImovel)

@@ -1,6 +1,11 @@
+using Confluent.Kafka;
 using System;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace STUR_mvc.Models {
+
+    [Serializable]
     public class Imposto {
         public Imposto()
         {
@@ -39,6 +44,21 @@ namespace STUR_mvc.Models {
         public static string GerarChave(string InscricaoImovel, DateTime DataVencimento)
         {
             return InscricaoImovel + DataVencimento.ToString("yyyyMMdd");
+        }
+    }
+
+    public class ImpostoSerializer : ISerializer<Imposto>
+    {
+        public byte[] Serialize(Imposto data, SerializationContext context)
+        {
+            if (data == null) return null;
+
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bf.Serialize(ms, data);
+                return ms.ToArray();
+            }
         }
     }
 }
