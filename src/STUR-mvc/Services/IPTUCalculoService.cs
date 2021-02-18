@@ -3,6 +3,7 @@ using STUR_mvc.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace STUR_mvc.Services
@@ -50,17 +51,18 @@ namespace STUR_mvc.Services
 
         private void NotificarImpostoCalculado(Imposto imposto)
         {
+            var impostoJson = JsonSerializer.Serialize(imposto);
             var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
-            var producerBuilder = new ProducerBuilder<Null, Imposto>(config);
-            producerBuilder.SetValueSerializer(new ImpostoSerializer());
+            var producerBuilder = new ProducerBuilder<Null, string>(config);
+            //producerBuilder.SetValueSerializer(new ImpostoSerializer());
 
             using (var producer = producerBuilder.Build())
             {
                 try
                 {
-                    producer.Produce("stur_imposto_calculado", new Message<Null, Imposto>
+                    producer.Produce("stur_imposto_calculado", new Message<Null, string>
                     {
-                        Value = imposto
+                        Value = impostoJson
                     });
                 }
                 catch (ProduceException<Null, Imposto> e)
