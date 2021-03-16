@@ -62,13 +62,16 @@ namespace STUR_mvc.Services
             {
                 try
                 {
+                    Console.WriteLine($"Produzindo mensagem stur_imposto_calculado: ${impostoJson}");
                     producer.Produce("stur_imposto_calculado", new Message<Null, string>
                     {
                         Value = impostoJson
                     });
+                    Console.WriteLine("$Mensagem enviada!");
                 }
                 catch (ProduceException<Null, Imposto> e)
                 {
+                    Console.WriteLine(e.Message);
                     throw e;
                 }
             }
