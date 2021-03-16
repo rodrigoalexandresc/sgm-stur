@@ -5,7 +5,7 @@
 --DROP raole stur;
 
 --CREATE USER userstur4 WITH encrypted PASSWORD 'stur2021!';
---GRANT ALL PRIVILEGES ON DATABASE stur TO userstur;
+--GRANT ALL PRIVILEGES ON DATABASE st ur TO userstur;
 
 begin;
 

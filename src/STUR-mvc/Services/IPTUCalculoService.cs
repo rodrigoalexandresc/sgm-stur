@@ -1,4 +1,5 @@
 ﻿using Confluent.Kafka;
+using Microsoft.Extensions.Options;
 using STUR_mvc.Models;
 using System;
 using System.Collections.Generic;
@@ -10,10 +11,12 @@ namespace STUR_mvc.Services
 {
     public class IPTUCalculoService
     {
-        readonly STURDBContext dbContext; 
-        public IPTUCalculoService(STURDBContext dbContext)
+        readonly STURDBContext dbContext;
+        readonly IOptions<KafkaConfig> kafkaConfig;
+        public IPTUCalculoService(STURDBContext dbContext, IOptions<KafkaConfig> kafkaConfig)
         {
             this.dbContext = dbContext;
+            this.kafkaConfig = kafkaConfig;
         }
         public IList<Imposto> CalcularIPTU(int anoBase, string inscricaoImovel)
         {
@@ -52,9 +55,8 @@ namespace STUR_mvc.Services
         private void NotificarImpostoCalculado(Imposto imposto)
         {
             var impostoJson = JsonSerializer.Serialize(imposto);
-            var config = new ProducerConfig { BootstrapServers = "192.168.15.200:9092" };
+            var config = new ProducerConfig { BootstrapServers = kafkaConfig.Value.BootstrapServers };
             var producerBuilder = new ProducerBuilder<Null, string>(config);
-            //producerBuilder.SetValueSerializer(new ImpostoSerializer());
 
             using (var producer = producerBuilder.Build())
             {
