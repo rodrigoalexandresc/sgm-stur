@@ -52,7 +52,7 @@ namespace STUR_mvc.Services
         private void NotificarImpostoCalculado(Imposto imposto)
         {
             var impostoJson = JsonSerializer.Serialize(imposto);
-            var config = new ProducerConfig { BootstrapServers = "localhost:9092" };
+            var config = new ProducerConfig { BootstrapServers = "192.168.15.200:9092" };
             var producerBuilder = new ProducerBuilder<Null, string>(config);
             //producerBuilder.SetValueSerializer(new ImpostoSerializer());
 
@@ -72,15 +72,15 @@ namespace STUR_mvc.Services
             }
         }
 
-        private IList<InfoGeo> SelecionarPropriedadas(int anoBase, string inscricaoImovel)
+        private IList<Lote> SelecionarPropriedadas(int anoBase, string inscricaoImovel)
         {
-            var propriedadesCalculo = new List<InfoGeo>();
+            var propriedadesCalculo = new List<Lote>();
             if (!string.IsNullOrEmpty(inscricaoImovel))
             {
-                return dbContext.InformacoesGeograficas.Where(w => w.InscricaoImovel == inscricaoImovel && w.DataAtualizacao.Year <= anoBase).ToList();
+                return dbContext.Lotes.Where(w => w.InscricaoImovel == inscricaoImovel && w.DataAtualizacao.Year <= anoBase).ToList();
             }
             
-            return  dbContext.InformacoesGeograficas.Where(w => w.DataAtualizacao.Year <=  anoBase).ToList();
+            return  dbContext.Lotes.Where(w => w.DataAtualizacao.Year <=  anoBase).ToList();
         }
     }
 }

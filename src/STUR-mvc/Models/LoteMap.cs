@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace STUR_mvc.Models
 {
-    public class InfoGeoMap
+    public class LoteMap
     {
-        public InfoGeoMap(EntityTypeBuilder<InfoGeo> entityBuilder)
+        public LoteMap(EntityTypeBuilder<Lote> entityBuilder)
         {
             entityBuilder.HasKey(x => x.Id);
-            entityBuilder.ToTable("infogeo");
+            entityBuilder.ToTable("lote");
 
             entityBuilder.Property(x => x.Id).HasColumnName("id");
             entityBuilder.Property(x => x.DataAtualizacao).HasColumnName("dataatualizacao");

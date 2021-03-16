@@ -1,10 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,10 +23,11 @@ namespace STUR_mvc
         {
             services.AddControllersWithViews();
 
-            //var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING");
-            var connectionString = "Server=localhost;Port=15432;Database=stur;User Id=postgres;Password=Postgres2021!";
+            services.AddOptions();
+            services.Configure<KafkaConfig>(Configuration.GetSection("Kafka"));
+
             services.AddDbContext<STURDBContext>(options =>
-                options.UseNpgsql(connectionString));
+                options.UseNpgsql(Configuration.GetConnectionString("DbSTURConnection")));
 
             services.AddScoped<IPTUCalculoService>();
         }

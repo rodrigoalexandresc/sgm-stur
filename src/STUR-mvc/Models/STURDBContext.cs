@@ -10,14 +10,14 @@ namespace STUR_mvc.Models {
         }
 
         public DbSet<Imposto> Impostos { get; set; }
-        public DbSet<InfoGeo> InformacoesGeograficas { get; set; }
+        public DbSet<Lote> Lotes { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             new ImpostoMap(modelBuilder.Entity<Imposto>());
-            new InfoGeoMap(modelBuilder.Entity<InfoGeo>());
+            new LoteMap(modelBuilder.Entity<Lote>());
         }
     }
 

@@ -1,3 +1,5 @@
+
+-- SET AUTOCOMMIT = ON;
 --CREATE DATABASE stur;
 
 --DROP raole stur;
@@ -37,18 +39,18 @@ VALUES
 (60*3.5, '30004444', '2021-2-6', '30004444-20210206', '', 60, 140),
 (60*3.5, '30074444', '2021-2-6', '30074444-20210206', '', 60, 140);
 
-DROP TABLE  IF EXISTS infogeo;
+DROP TABLE  IF EXISTS lote;
 
-CREATE TABLE infogeo (
+CREATE TABLE lote (
 id SERIAL,
 inscricaoimovel varchar(20) NOT NULL,
 dataatualizacao timestamp NOT NULL,
 areaconstruida numeric(15,2) NOT NULL DEFAULT 0,
 areaterreno numeric(15,2) NOT NULL DEFAULT 0,
-CONSTRAINT infogeo_pkey PRIMARY KEY (id)
+CONSTRAINT lote_pkey PRIMARY KEY (id)
 );
 
-INSERT INTO infogeo (inscricaoimovel, dataatualizacao, areaconstruida, areaterreno)
+INSERT INTO lote (inscricaoimovel, dataatualizacao, areaconstruida, areaterreno)
 VALUES 
 ('30014444', '2020-1-1', 60, 140),
 ('30054444', '2020-1-1', 100, 140),
@@ -68,7 +70,9 @@ commit;
 
 
 SELECT * FROM imposto;
-SELECT * FROM infogeo;
+SELECT * FROM lote;
+
+
 
 
 

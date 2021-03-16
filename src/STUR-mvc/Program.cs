@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using STUR_mvc.Services;
 
 namespace STUR_mvc
 {
@@ -20,8 +22,12 @@ namespace STUR_mvc
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>()
-                    .UseUrls("https://*:6001");
-                });
+                    webBuilder.UseStartup<Startup>();
+                    //.UseUrls("https://*:6001");
+                })
+            .ConfigureServices(s =>
+            {
+                s.AddHostedService<LoteAtualizadoMessageHandler>();
+            });
     }
 }
