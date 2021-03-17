@@ -63,7 +63,7 @@ namespace STUR_mvc.Services
                 try
                 {
                     Console.WriteLine($"Produzindo mensagem stur_imposto_calculado: ${impostoJson}");
-                    await producer.ProduceAsync("stur_imposto_calculado", new Message<Null, string>
+                    await producer.ProduceAsync("stur-imposto-calculado", new Message<Null, string>
                     {
                         Value = impostoJson
                     });
