@@ -18,7 +18,7 @@ namespace STUR_mvc.Services
             this.dbContext = dbContext;
             this.kafkaConfig = kafkaConfig;
         }
-        public IList<Imposto> CalcularIPTU(int anoBase, string inscricaoImovel)
+        public async Task<IList<Imposto>> CalcularIPTU(int anoBase, string inscricaoImovel)
         {
             var impostosCalculados = new List<Imposto>();
             var dataCalculo = new DateTime(anoBase, 2, 20);
@@ -46,13 +46,13 @@ namespace STUR_mvc.Services
 
                 dbContext.SaveChanges();
 
-                NotificarImpostoCalculado(imposto);
+                await NotificarImpostoCalculado(imposto);
             }
 
             return impostosCalculados;
         }
 
-        private void NotificarImpostoCalculado(Imposto imposto)
+        private async Task NotificarImpostoCalculado(Imposto imposto)
         {
             var impostoJson = JsonSerializer.Serialize(imposto);
             var config = new ProducerConfig { BootstrapServers = kafkaConfig.Value.BootstrapServers };
@@ -63,7 +63,7 @@ namespace STUR_mvc.Services
                 try
                 {
                     Console.WriteLine($"Produzindo mensagem stur_imposto_calculado: ${impostoJson}");
-                    producer.Produce("stur_imposto_calculado", new Message<Null, string>
+                    await producer.ProduceAsync("stur_imposto_calculado", new Message<Null, string>
                     {
                         Value = impostoJson
                     });
