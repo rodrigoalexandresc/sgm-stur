@@ -23,11 +23,10 @@ namespace STUR_mvc
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    //.UseUrls("https://*:6001");
-                })
-            .ConfigureServices(s =>
-            {
-                s.AddHostedService<LoteAtualizadoMessageHandler>();
-            });
+                });
+            // .ConfigureServices(s =>
+            // {
+            //     s.AddHostedService<LoteAtualizadoMessageHandler>();
+            // });
     }
 }

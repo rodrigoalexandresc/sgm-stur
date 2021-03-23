@@ -1,6 +1,6 @@
 
--- SET AUTOCOMMIT = ON;
---CREATE DATABASE stur;
+--  SET AUTOCOMMIT = ON;
+-- CREATE DATABASE stur;
 
 --DROP raole stur;
 
@@ -70,7 +70,7 @@ commit;
 
 
 SELECT * FROM imposto;
-SELECT * FROM lote;
+SELECT * FROM lote where inscricaoimovel = '10014477';
 
 
 
